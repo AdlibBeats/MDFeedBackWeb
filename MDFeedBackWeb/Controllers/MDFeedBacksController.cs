@@ -36,7 +36,7 @@ namespace MDFeedBackWeb.Controllers
         [HttpGet]
         public MDFeedBackModel GetMDFeedBack(string id)
         {
-            if (!int.TryParse(id, out int mdFeedBackModelId))
+            if (!(int.TryParse(id, out int mdFeedBackModelId)))
                 return default(MDFeedBackModel);
 
             return _mdFeedBackContext
@@ -86,7 +86,7 @@ namespace MDFeedBackWeb.Controllers
         [HttpPut]
         public IHttpActionResult EditMDFeedBack(string id, [FromBody]MDFeedBackModel mdFeedBackModel)
         {
-            if (int.TryParse(id, out int mdFeedBackModelId))
+            if (!(int.TryParse(id, out int mdFeedBackModelId)))
                 return BadRequest("Ошибка запроса. Некорректно указано поле id.");
 
             if (mdFeedBackModel == null)
@@ -110,7 +110,7 @@ namespace MDFeedBackWeb.Controllers
         [HttpDelete]
         public IHttpActionResult DeleteMDFeedBack(string id)
         {
-            if (int.TryParse(id, out int mdFeedBackModelId))
+            if (!(int.TryParse(id, out int mdFeedBackModelId)))
                 return BadRequest("Ошибка запроса. Некорректно указано поле id.");
 
             if (!(_mdFeedBackContext.MDFeedBacks
