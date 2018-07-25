@@ -48,16 +48,18 @@ namespace MDFeedBackWeb.Controllers
         /// Возвращает последний MDFeedBack.
         /// </summary>
         /// <returns>Возвращает последний MDFeedBack.</returns>
-        [Route("api/MDFeedBack/Last")]
+        [Route("api/MDFeedBacks/Last")]
         [HttpGet]
         public MDFeedBackModel GetLastMDFeedBack() =>
-            _mdFeedBackContext.MDFeedBacks.LastOrDefault();
+            _mdFeedBackContext.MDFeedBacks
+                .OrderByDescending(mdFeedBackModel => mdFeedBackModel.MDFeedBackModelId)
+                .FirstOrDefault();
 
         /// <summary>
         /// Возвращает первый MDFeedBack.
         /// </summary>
         /// <returns>Возвращает первый MDFeedBack.</returns>
-        [Route("api/MDFeedBack/First")]
+        [Route("api/MDFeedBacks/First")]
         [HttpGet]
         public MDFeedBackModel GetFirstMDFeedBack() =>
             _mdFeedBackContext.MDFeedBacks.FirstOrDefault();
