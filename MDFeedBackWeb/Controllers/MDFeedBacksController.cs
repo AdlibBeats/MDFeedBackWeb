@@ -19,24 +19,24 @@ namespace MDFeedBackWeb.Controllers
             _mdFeedBackContext = new MDFeedBackContext();
 
         /// <summary>
-        /// Возвращает MDFeedBack.
+        /// Возвращает все MDFeedBacks.
         /// </summary>
-        /// <returns>Возвращает MDFeedBack.</returns>
+        /// <returns>Возвращает все MDFeedBacks.</returns>
         [Route("api/MDFeedBacks")]
         [HttpGet]
         public IEnumerable<MDFeedBackModel> GetMDFeedBacks() =>
             _mdFeedBackContext.MDFeedBacks;
 
         /// <summary>
-        /// Возвращает MDFeedBack.
+        /// Возвращает MDFeedBack по id.
         /// </summary>
         /// <param name="id">Укажите id для поиска MDFeedBack в базе MSSQL.</param>
-        /// <returns>Возвращает MDFeedBack.</returns>
+        /// <returns>Возвращает MDFeedBack по id.</returns>
         [Route("api/MDFeedBacks/{id}")]
         [HttpGet]
         public MDFeedBackModel GetMDFeedBack(string id)
         {
-            if (!(int.TryParse(id, out int mdFeedBackModelId)))
+            if (!(int.TryParse(id, out int mdFeedBackModelId)) || mdFeedBackModelId < 1)
                 return default(MDFeedBackModel);
 
             return _mdFeedBackContext
@@ -45,7 +45,25 @@ namespace MDFeedBackWeb.Controllers
         }
 
         /// <summary>
-        /// Добавление MDFeedBack.
+        /// Возвращает последний MDFeedBack.
+        /// </summary>
+        /// <returns>Возвращает последний MDFeedBack.</returns>
+        [Route("api/MDFeedBack/Last")]
+        [HttpGet]
+        public MDFeedBackModel GetLastMDFeedBack() =>
+            _mdFeedBackContext.MDFeedBacks.LastOrDefault();
+
+        /// <summary>
+        /// Возвращает первый MDFeedBack.
+        /// </summary>
+        /// <returns>Возвращает первый MDFeedBack.</returns>
+        [Route("api/MDFeedBack/First")]
+        [HttpGet]
+        public MDFeedBackModel GetFirstMDFeedBack() =>
+            _mdFeedBackContext.MDFeedBacks.FirstOrDefault();
+
+        /// <summary>
+        /// Добавляет MDFeedBack.
         /// </summary>
         /// <param name="mdFeedBackModel">Укажите тело запроса.</param>
         /// <returns>Возвращает IHttpActionResult.</returns>
@@ -77,7 +95,7 @@ namespace MDFeedBackWeb.Controllers
         }
 
         /// <summary>
-        /// Редактирование MDFeedBack по id.
+        /// Редактирует MDFeedBack по id.
         /// </summary>
         /// <param name="id">Укажите id для изменения MDFeedBack в базе MSSQL.</param>
         /// <param name="mdFeedBackModel">Укажите тело запроса.</param>
@@ -86,8 +104,8 @@ namespace MDFeedBackWeb.Controllers
         [HttpPut]
         public IHttpActionResult EditMDFeedBack(string id, [FromBody]MDFeedBackModel mdFeedBackModel)
         {
-            if (!(int.TryParse(id, out int mdFeedBackModelId)))
-                return BadRequest("Ошибка запроса. Некорректно указано поле id.");
+            if (!(int.TryParse(id, out int mdFeedBackModelId)) || mdFeedBackModelId < 1)
+                return BadRequest($"Ошибка запроса. Некорректно указано поле id:{id}.");
 
             if (mdFeedBackModel == null)
                 return BadRequest("Ошибка запроса. Некорректно указано тело запроса.");
@@ -102,7 +120,7 @@ namespace MDFeedBackWeb.Controllers
         }
 
         /// <summary>
-        /// Удаление MDFeedBack по id.
+        /// Удаляет MDFeedBack по id.
         /// </summary>
         /// <param name="id">Укажите id для удаления MDFeedBack из базы MSSQL.</param>
         /// <returns>Возвращает IHttpActionResult.</returns>
@@ -110,8 +128,8 @@ namespace MDFeedBackWeb.Controllers
         [HttpDelete]
         public IHttpActionResult DeleteMDFeedBack(string id)
         {
-            if (!(int.TryParse(id, out int mdFeedBackModelId)))
-                return BadRequest("Ошибка запроса. Некорректно указано поле id.");
+            if (!(int.TryParse(id, out int mdFeedBackModelId)) || mdFeedBackModelId < 1)
+                return BadRequest($"Ошибка запроса. Некорректно указано поле id:{id}.");
 
             if (!(_mdFeedBackContext.MDFeedBacks
                 .SingleOrDefault(i => i.MDFeedBackModelId == mdFeedBackModelId) is MDFeedBackModel mdFeedBackModel))
