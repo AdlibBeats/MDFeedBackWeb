@@ -30,7 +30,7 @@ namespace MDFeedBackWeb.Controllers
         /// <summary>
         /// Возвращает MDFeedBack.
         /// </summary>
-        /// <param name="id">Укажите id для поиска MDFeedBack в базы MSSQL.</param>
+        /// <param name="id">Укажите id для поиска MDFeedBack в базе MSSQL.</param>
         /// <returns>Возвращает MDFeedBack.</returns>
         [Route("api/MDFeedBacks/{id}")]
         [HttpGet]
